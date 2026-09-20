@@ -5586,11 +5586,32 @@ Blockly.Python['neopixel_color_numbers'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+//Some neopixels are wired as GRB rather than RGB (such as the Pico Explorer board)
+Blockly.Python['neopixel_color_numbers_grb'] = function(block) {
+  var value_red = Blockly.Python.valueToCode(block, 'red', Blockly.Python.ORDER_ATOMIC);
+  var value_green = Blockly.Python.valueToCode(block, 'green', Blockly.Python.ORDER_ATOMIC);
+  var value_blue = Blockly.Python.valueToCode(block, 'blue', Blockly.Python.ORDER_ATOMIC);
+
+  // Style block with compiled values, see block_definitions.js
+  this.styleBlock([value_red, value_green, value_blue])
+
+  var code = `(${value_green},${value_red},${value_blue})`;
+
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 
 Blockly.Python['neopixel_color_colors'] = function(block) {
   var color = block.getFieldValue('color');
   var h = Tool.HEX2RGB(color);
   var code = `(${h.r},${h.g},${h.b})`;
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['neopixel_color_colors_grb'] = function(block) {
+  var color = block.getFieldValue('color');
+  var h = Tool.HEX2RGB(color);
+  var code = `(${h.g},${h.r},${h.b})`;
   return [code, Blockly.Python.ORDER_NONE];
 };
 
@@ -6360,8 +6381,15 @@ Blockly.Python['math_max'] = function(block) {
   return [code, Blockly.Python.ORDER_FUNCTION_CALL];
 };
   
+
+
+
+
+
+
+
   
-  
+
 
 
 
