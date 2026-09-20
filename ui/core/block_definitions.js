@@ -2481,7 +2481,7 @@ Blockly.Blocks['simulate_dcmotor.sim'] = {
         .appendField(new Blockly.FieldNumber(0, 0, 9), "ID");
     this.appendDummyInput()
         .setAlign(Blockly.ALIGN_CENTRE)
-        .appendField("Ra(Ω)")
+        .appendField("Ra(Ω)")
         .appendField(new Blockly.FieldNumber(0.52, 0), "RA")
         .appendField("La(H)")
         .appendField(new Blockly.FieldNumber(0.000036, 0), "LA")
@@ -10794,6 +10794,53 @@ Blockly.Blocks['neopixel_color_colors'] = {
   }
 };
 
+//Some Neopixels are wired as GRB rather than RGB, so we need to provide a block for that as well.
+Blockly.Blocks['neopixel_color_numbers_grb'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Red");
+    this.appendValueInput("red")
+        .setCheck(null);
+    this.appendDummyInput()
+        .appendField("Green");
+    this.appendValueInput("green")
+        .setCheck(null);
+    this.appendDummyInput()
+        .appendField("Blue");
+    this.appendValueInput("blue")
+        .setCheck(null);
+    this.setInputsInline(true);
+    this.setOutput(true, null);
+    this.setColour(230);
+    this.setTooltip("NeoPixel LED RGB URL");
+    this.setHelpUrl("https://bipes.net.br/wp/?page_id=177");
+  },
+  styleBlock: function(colours) {
+    colours = colours.map(x => parseInt(x))
+    colours = colours.includes(NaN) ? [89,102,166] : colours
+    if(colours.every((e) => {return e <= 255}) && colours.every((e) => {return e >= 0})) {
+      let hex_ = Tool.RGB2HEX (colours [0], colours [1], colours [2]);
+      this.setColour(hex_);
+    } else
+      this.setColour("#FF0000");
+  }
+};
+
+
+Blockly.Blocks['neopixel_color_colors_grb'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Color")
+        .appendField(new Blockly.FieldColour("#ff0000"), "color");
+    this.setInputsInline(true);
+    this.setOutput(true, null);
+    this.setColour(230);
+ this.setTooltip("NeoPixel LED Color GRB");
+ this.setHelpUrl("https://bipes.net.br/wp/?page_id=177");
+  }
+};
+
+
 Blockly.Blocks['HSL_to_RGB'] = {
   init: function  () {
     this.appendDummyInput()
@@ -11834,4 +11881,6 @@ Blockly.Blocks['math_max'] = {
     this.setHelpUrl("");
   }
 };
+
+
 
